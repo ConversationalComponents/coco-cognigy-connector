@@ -41,13 +41,14 @@ def handle(component_id, cognigy_json_response, response_time_seconds=0.0):
 
     response = cognigy_json_response.get("text", "")
 
-    coco_standard_response["response"] = response
-
     coco_standard_response["action_name"] = user_input_handler.fetch_action_name(
         response)
 
     coco_standard_response.update(user_input_handler.calculate_status_flags(
         response))
+
+    coco_standard_response["response"] = \
+        user_input_handler.clean_placeholders_from_text(response)
 
     coco_standard_response["response_time"] = response_time_seconds
 
